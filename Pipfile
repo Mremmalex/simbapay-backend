@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 nanoid = "*"
 psycopg2-binary = "*"
 flask-migrate = "*"
+python-dotenv = "*"
 
 [dev-packages]
 flake8 = "*"

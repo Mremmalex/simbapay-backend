@@ -11,8 +11,6 @@ ENV FLASK_APP main.py
 
 COPY . .
 
-RUN python3 db init
-RUN python3 db migrate
 
 EXPOSE 5000
 
