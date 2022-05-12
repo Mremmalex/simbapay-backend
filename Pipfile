@@ -10,6 +10,10 @@ nanoid = "*"
 psycopg2-binary = "*"
 flask-migrate = "*"
 python-dotenv = "*"
+pyjwt = "*"
+logger = "*"
+flask-cors = "*"
+flask-expects-json = "*"
 
 [dev-packages]
 flake8 = "*"

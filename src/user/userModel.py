@@ -1,13 +1,14 @@
+from datetime import datetime
 from nanoid import generate
 from src.worker import db
 
 
-nano = generate("1234567890", 10)
-nano_id = generate("1234567899anyueiwoalmnbvc", 10)
+nano_id = generate("1234567899anyueiwoalmnbvc", 13)
+nano_txn = generate("1234567780", 8)
 
 
 class User(db.Model):
-    __tablename__ = "user"
+    __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String, default=nano_id)
@@ -19,28 +20,14 @@ class User(db.Model):
         return f"{self.username},:{self.email}"
 
 
-class EurAccount(db.Model):
-    __tablename__ = "eur_account"
+class Transaction(db.Model):
+    __tablename__ = "transactions"
 
     id = db.Column(db.Integer, primary_key=True)
-    account_num = db.Column(db.String, unique=True, default=nano)
-    balance = db.Column(db.String)
-    user_id = db.Column(db.Integer)
-
-
-class NgnAccount(db.Model):
-    __tablename__ = "ngn_account"
-
-    id = db.Column(db.Integer, primary_key=True)
-    account_num = db.Column(db.String, unique=True, default=nano)
-    balance = db.Column(db.Integer)
-    user_id = db.Column(db.Integer)
-
-
-class UsdAccount(db.Model):
-    __tablename__ = "usd_account"
-
-    id = db.Column(db.Integer, primary_key=True)
-    account_num = db.Column(db.String, unique=True, default=nano)
-    balance = db.Column(db.Integer, default=1000)
-    user_id = db.Column(db.Integer)
+    trans_id = db.Column(db.String, unique=True, default=nano_txn)
+    from_user = db.Column(db.Integer)
+    to_user = db.Column(db.Integer)
+    currency_type = db.Column(db.String)
+    transaction_type = db.Column(db.String)
+    created_at = db.Column(db.String, default=datetime.utcnow())
+    updateed_at = db.Column(db.String)
