@@ -27,6 +27,15 @@ reg_schema = {
     },
     "required": ['email', "username", "password"]
 }
+login_schema = {
+    'type': "object",
+    'properties': {
+        "username": {'type': 'string', "minLength": 4, "maxLength": 60},
+
+        "password": {'type': 'string', "minLength": 6},
+    },
+    "required": ["username", "password"]
+}
 
 
 @route.post("/api/auth/register")
@@ -44,13 +53,13 @@ def handle_register_user():
     userExitsbyEmail = getUserByEmail(email)
 
     if userExitsbyUsername:
-        return make_response(jsonify({'message':
+        return make_response(jsonify({'error':
                                       "username already in use",
                                       "status": 400,
-                                      "statusText": "ok"},
-                                     )),
+                                      "statusText": "ok"}), 400)
+
     if userExitsbyEmail:
-        return make_response(jsonify({'message':
+        return make_response(jsonify({'error':
                                       "email already in use",
                                       "status": 400,
                                       "statusText": "ok"}), 400)
