@@ -9,7 +9,7 @@ from jsonschema import ValidationError
 load_dotenv()
 
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, supports_credentials=True)
 
 
 database_name = os.environ["DATABASE_NAME"]

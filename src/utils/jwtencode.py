@@ -8,7 +8,7 @@ def generate_jwt(payload):
     return jwt_token
 
 
-def decode_jwt(token: str):
+def decode_jwt(token: bytes):
     try:
         payload = jwt.decode(token, os.environ['SECRET_KEY'], "HS256")
         return {

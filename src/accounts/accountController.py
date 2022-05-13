@@ -1,14 +1,22 @@
 
-from flask import Blueprint, jsonify, make_response
+from flask import Blueprint, jsonify, make_response, request
 from src.accounts.accountService import getEurAccount, getNgnAccount, getUsdAccount
 from src.middleware.requiredUser import required_user
+from src.utils.jwtencode import decode_jwt
 
 
 route = Blueprint("accounts", "accounts")
 
 
-@route.get("/api/auth/accounts/<user_id>")
-def handle_user_accounts(user_id):
+@route.get("/api/auth/accounts")
+@required_user()
+def handle_user_accounts():
+    json_token = request.headers.get(
+        "Authorization") or request.cookies.get("accessToken")
+
+    userData = decode_jwt(json_token)
+
+    user_id = userData['payload'].get("user_id")
     eur = getEurAccount(user_id)
     usd = getUsdAccount(user_id)
     ngn = getNgnAccount(user_id)
@@ -26,4 +34,4 @@ def handle_user_accounts(user_id):
             "balance": ngn.balance
         }
     }
-    return make_response(jsonify({"res": payload})), 200
+    return make_response(jsonify({"data": payload})), 200
