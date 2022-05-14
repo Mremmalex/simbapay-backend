@@ -36,10 +36,8 @@ def bad_request(error):
 
 from src.user.userController import route as user
 from src.accounts.accountController import route as account
+from src.transactions.transacctionController import route as transaction
+
 app.register_blueprint(user)
 app.register_blueprint(account)
-
-
-@app.get("/")
-def home():
-    return make_response(jsonify({'res': "user register"}))
+app.register_blueprint(transaction)

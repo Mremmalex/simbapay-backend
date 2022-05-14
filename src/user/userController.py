@@ -1,3 +1,4 @@
+import json
 from flask import Blueprint, jsonify, make_response, request, Response
 from werkzeug.security import generate_password_hash, check_password_hash
 from src.middleware.requiredUser import required_user
@@ -118,52 +119,67 @@ def handle_login_user():
         return make_response(jsonify({"message": "password does not match"}))
 
 
-@route.get("/api/auth/accountDetailsEur/<acc_num>")
+login_schema = {
+    'type': "object",
+    'properties': {
+
+
+        "account_num": {'type': 'string', "minLength": 10},
+    },
+    "required": ["account_num"]
+}
+
+
+@route.post("/api/auth/accountDetails")
 @required_user()
-def handle_user_with_eur_acoount(acc_num):
-    userEur = getEurAccountByAccNumber(acc_num)
-    user = getUserByUserId(userEur.user_id)
-    if user:
-        payload = {
-            "user_id": user.user_id,
-            "username": user.username,
-            "email": user.email
-        }
-        return make_response(jsonify({"message": "happy to bring you user details",
-                                      "data": payload}), 200)
+def handle_user_with_eur_acoount():
+    data = request.json
+    currency = data['currency']
+    account_num = data["account_num"]
 
-    return make_response(jsonify({"error": "Service Not Avaliable"}), 301)
+    if currency == "eur":
+        try:
+            userEur = getEurAccountByAccNumber(account_num)
 
+            user = getUserByUserId(userEur.user_id)
+            if user:
+                payload = {
 
-@route.get("/api/auth/accountDetailsUsd/<acc_num>")
-@required_user()
-def handle_user_with_usd_acoount(acc_num):
-    userEur = getUsdAccountByAccNumber(acc_num)
-    user = getUserByUserId(userEur.user_id)
-    if user:
-        payload = {
-            "user_id": user.user_id,
-            "username": user.username,
-            "email": user.email
-        }
-        return make_response(jsonify({"message": "happy to bring you user details",
-                                      "data": payload}), 200)
+                    "username": user.username,
+                    "email": user.email
+                }
+                return make_response(jsonify({"message": "happy to bring you user details",
+                                              "data": payload}), 200)
+        except AttributeError:
+            return make_response(jsonify({"error": "No user with this Account"}))
+    elif currency == "usd":
+        try:
+            userUsd = getUsdAccountByAccNumber(account_num)
+            user = getUserByUserId(userUsd.user_id)
+            if user:
+                payload = {
 
-    return make_response(jsonify({"error": "Service Not Avaliable"}), 301)
+                    "username": user.username,
+                    "email": user.email
+                }
+                return make_response(jsonify({"message": "happy to bring you user details",
+                                              "data": payload}), 200)
+        except AttributeError:
+            return make_response(jsonify({"error": "No user with this Account"}))
+    else:
+        try:
+            if currency == "ngn":
+                userNgn = getNgnAccountByAccNumber(account_num)
+                user = getUserByUserId(userNgn.user_id)
+                if user:
+                    payload = {
 
-
-@route.get("/api/auth/accountDetailsNgn/<acc_num>")
-@required_user()
-def handle_user_with_ngn_acoount(acc_num):
-    userEur = getNgnAccountByAccNumber(acc_num)
-    user = getUserByUserId(userEur.user_id)
-    if user:
-        payload = {
-            "user_id": user.user_id,
-            "username": user.username,
-            "email": user.email
-        }
-        return make_response(jsonify({"message": "happy to bring you user details",
-                                      "data": payload}), 200)
+                        "username": user.username,
+                        "email": user.email
+                    }
+                    return make_response(jsonify({"message": "happy to bring you user details",
+                                                  "data": payload}), 200)
+        except AttributeError:
+            return make_response(jsonify({"error": "No user with this Account"}))
 
     return make_response(jsonify({"error": "Service Not Avaliable"}), 301)

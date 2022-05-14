@@ -33,11 +33,26 @@ def getEurAccountByAccNumber(account_num):
     return eur
 
 
+def getEurAccountByUserId(user_id):
+    eur = EurAccount.query.filter_by(user_id=user_id).first()
+    return eur
+
+
 def getUsdAccountByAccNumber(account_num):
     usd = UsdAccount.query.filter_by(account_num=account_num).first()
     return usd
 
 
+def getUsdAccountByUserId(user_id):
+    usd = UsdAccount.query.filter_by(user_id=user_id).first()
+    return usd
+
+
 def getNgnAccountByAccNumber(account_num):
     ngn = NgnAccount.query.filter_by(account_num=account_num).first()
+    return ngn
+
+
+def getNgnAccountByUserId(user_id):
+    ngn = NgnAccount.query.filter_by(user_id=user_id).first()
     return ngn
