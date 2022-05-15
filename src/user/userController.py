@@ -1,5 +1,4 @@
-import json
-from flask import Blueprint, jsonify, make_response, request, Response
+from flask import Blueprint, jsonify, make_response, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from src.middleware.requiredUser import required_user
 from src.accounts.accountService import generateAccounts, getEurAccountByAccNumber, getNgnAccountByAccNumber, getUsdAccountByAccNumber
