@@ -4,6 +4,7 @@ from src.middleware.requiredUser import required_user
 from src.user.userService import getUserByUserId
 from src.utils.jwtencode import decode_jwt
 from src.worker import db
+from transactions.transactionService import createTransaction
 
 
 route = Blueprint("transaction", "transaction")
@@ -29,16 +30,19 @@ def handle_transfer_money() -> Response:
     if currency == "eur":
         try:
             userEur = getEurAccountByAccNumber(account_num)
-            # user = getUserByUserId(userEur.user_id)
+            user = getUserByUserId(userEur.user_id)
             loggedInUserAcc = getEurAccountByUserId(loggedIn.user_id)
 
             if loggedInUserAcc.account_num == account_num:
                 return make_response(jsonify({"message": "you can not transfer to your account"}))
             else:
                 if loggedInUserAcc.balance >= amount:
-                    loggedInUserAcc.balace = loggedInUserAcc.balance - amount
+                    loggedInUserAcc.balance = loggedInUserAcc.balance - amount
+                    db.session.commit()
                     userEur.balance = userEur.balance + amount
                     db.session.commit()
+                    createTransaction(loggedIn.username,
+                                      user.username, amount, currency, "send")
                     return make_response(jsonify({"message": "transfer Successfull",
                                                   "amount": amount}), 201)
 
@@ -53,16 +57,19 @@ def handle_transfer_money() -> Response:
     elif currency == "usd":
         try:
             userUsd = getUsdAccountByAccNumber(account_num)
-            # user = getUserByUserId(userUsd.user_id)
+            user = getUserByUserId(userUsd.user_id)
             loggedInUserAcc = getUsdAccountByUserId(loggedIn.user_id)
 
             if loggedInUserAcc.account_num == account_num:
                 return make_response(jsonify({"message": "you can not transfer to your account"}), 301)
             else:
                 if loggedInUserAcc.balance >= amount:
-                    loggedInUserAcc.balace = loggedInUserAcc.balance - amount
+                    loggedInUserAcc.balance = loggedInUserAcc.balance - amount
+                    db.session.commit()
                     userUsd.balance = userUsd.balance + amount
                     db.session.commit()
+                    createTransaction(loggedIn.username,
+                                      user.username, amount, currency, "send")
                     return make_response(jsonify({"message": "transfer Successfull",
                                                   "amount": amount}), 201)
 
@@ -75,15 +82,18 @@ def handle_transfer_money() -> Response:
         try:
             if currency == "ngn":
                 userNgn = getNgnAccountByAccNumber(account_num)
-                # user = getUserByUserId(userNgn.user_id)
+                user = getUserByUserId(userNgn.user_id)
                 loggedInUserAcc = getNgnAccountByUserId(loggedIn.user_id)
                 if loggedInUserAcc.account_num == account_num:
                     return make_response(jsonify({"message": "you can not transfer to your account"}))
                 else:
                     if loggedInUserAcc.balance >= amount:
-                        loggedInUserAcc.balace = loggedInUserAcc.balance - amount
+                        loggedInUserAcc.balance = loggedInUserAcc.balance - amount
+                        db.session.commit()
                         userNgn.balance = userNgn.balance + amount
                         db.session.commit()
+                        createTransaction(
+                            loggedIn.username, user.username, amount, currency, "send")
                         return make_response(jsonify({"message": "transfer Successfull",
                                                       "amount": amount}), 201)
 

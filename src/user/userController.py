@@ -150,7 +150,7 @@ def handle_user_with_eur_acoount():
                 return make_response(jsonify({"message": "happy to bring you user details",
                                               "data": payload}), 200)
         except AttributeError:
-            return make_response(jsonify({"error": "No user with this Account"}))
+            return make_response(jsonify({"message": "No user with this Account"}))
     elif currency == "usd":
         try:
             userUsd = getUsdAccountByAccNumber(account_num)
@@ -164,7 +164,7 @@ def handle_user_with_eur_acoount():
                 return make_response(jsonify({"message": "happy to bring you user details",
                                               "data": payload}), 200)
         except AttributeError:
-            return make_response(jsonify({"error": "No user with this Account"}))
+            return make_response(jsonify({"message": "No user with this Account"}))
     else:
         try:
             if currency == "ngn":
@@ -179,6 +179,6 @@ def handle_user_with_eur_acoount():
                     return make_response(jsonify({"message": "happy to bring you user details",
                                                   "data": payload}), 200)
         except AttributeError:
-            return make_response(jsonify({"error": "No user with this Account"}))
+            return make_response(jsonify({"message": "No user with this Account"}))
 
-    return make_response(jsonify({"error": "Service Not Avaliable"}), 301)
+    return make_response(jsonify({"message": "Service Not Avaliable"}), 301)
