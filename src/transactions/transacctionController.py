@@ -3,7 +3,7 @@ from src.accounts.accountService import getEurAccountByAccNumber, getEurAccountB
 from src.middleware.requiredUser import required_user
 from src.user.userService import getUserByUserId
 from src.utils.jwtencode import decode_jwt
-from src.worker import db
+from src import db
 from src.transactions.transactionService import createTransaction
 
 

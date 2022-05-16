@@ -1,3 +1,3 @@
-from src.worker import db
+from src import db
 
 db.create_all()

@@ -1,5 +1,5 @@
 from src.accounts.accnum import accountNumberGen
-from src.worker import db
+from src import db
 
 
 class EurAccount(db.Model):

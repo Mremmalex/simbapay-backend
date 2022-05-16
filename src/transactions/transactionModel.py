@@ -1,6 +1,6 @@
 from datetime import datetime
 from nanoid import generate
-from src.worker import db
+from src import db
 
 nano_txn = generate("1234567780", 8)
 

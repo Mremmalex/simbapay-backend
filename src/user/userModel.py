@@ -1,10 +1,8 @@
-from datetime import datetime
 from nanoid import generate
-from src.worker import db
+from src import db
 
 
 nano_id = generate("1234567899anyueiwoalmnbvc", 13)
-
 
 
 class User(db.Model):
@@ -18,4 +16,3 @@ class User(db.Model):
 
     def __repr__(self) -> str:
         return f"{self.username},:{self.email}"
-
