@@ -46,7 +46,7 @@
 				"sha256:fad5b446feb0d6db6aec0c3184d16a8c1f6c3e464b511649c8918a9be100b4fe"
 			],
 			"index": "pypi",
-			"version": "==1.1.2"
+			"version": "==2.1.2"
 		},
 		"flask-cors": {
 			"hashes": [
