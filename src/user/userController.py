@@ -139,11 +139,9 @@ def handle_user_with_eur_acoount():
     if currency == "eur":
         try:
             userEur = getEurAccountByAccNumber(account_num)
-
             user = getUserByUserId(userEur.user_id)
             if user:
                 payload = {
-
                     "username": user.username,
                     "email": user.email
                 }
@@ -179,6 +177,6 @@ def handle_user_with_eur_acoount():
                     return make_response(jsonify({"message": "happy to bring you user details",
                                                   "data": payload}), 200)
         except AttributeError:
-            return make_response(jsonify({"message": "No user with this Account"}))
+            return make_response(jsonify({"message": "No user with this Account"}),)
 
     return make_response(jsonify({"message": "Service Not Avaliable"}), 301)

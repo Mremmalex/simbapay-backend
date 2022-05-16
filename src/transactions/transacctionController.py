@@ -4,7 +4,7 @@ from src.middleware.requiredUser import required_user
 from src.user.userService import getUserByUserId
 from src.utils.jwtencode import decode_jwt
 from src.worker import db
-from transactions.transactionService import createTransaction
+from src.transactions.transactionService import createTransaction
 
 
 route = Blueprint("transaction", "transaction")
@@ -48,11 +48,11 @@ def handle_transfer_money() -> Response:
 
                 else:
                     return make_response(jsonify({"message": "You Currently do not have up to the amount",
-                                                  "amount": amount}), 301)
+                                                  "amount": amount}), 406)
 
         except AttributeError:
 
-            return make_response(jsonify({"message": "No user with this Account"}), 301)
+            return make_response(jsonify({"message": "No user with this Account"}), 406)
 
     elif currency == "usd":
         try:
@@ -61,7 +61,7 @@ def handle_transfer_money() -> Response:
             loggedInUserAcc = getUsdAccountByUserId(loggedIn.user_id)
 
             if loggedInUserAcc.account_num == account_num:
-                return make_response(jsonify({"message": "you can not transfer to your account"}), 301)
+                return make_response(jsonify({"message": "you can not transfer to your account"}), 406)
             else:
                 if loggedInUserAcc.balance >= amount:
                     loggedInUserAcc.balance = loggedInUserAcc.balance - amount
@@ -75,9 +75,9 @@ def handle_transfer_money() -> Response:
 
                 else:
                     return make_response(jsonify({"message": "You Currently do not have up to the amount",
-                                                  "amount": amount}), 301)
+                                                  "amount": amount}), 406)
         except AttributeError:
-            return make_response(jsonify({"message": "No user with this Account"}), 301)
+            return make_response(jsonify({"message": "No user with this Account"}), 406)
     else:
         try:
             if currency == "ngn":
@@ -85,7 +85,7 @@ def handle_transfer_money() -> Response:
                 user = getUserByUserId(userNgn.user_id)
                 loggedInUserAcc = getNgnAccountByUserId(loggedIn.user_id)
                 if loggedInUserAcc.account_num == account_num:
-                    return make_response(jsonify({"message": "you can not transfer to your account"}))
+                    return make_response(jsonify({"message": "you can not transfer to your account"}), 406)
                 else:
                     if loggedInUserAcc.balance >= amount:
                         loggedInUserAcc.balance = loggedInUserAcc.balance - amount
@@ -99,8 +99,8 @@ def handle_transfer_money() -> Response:
 
                     else:
                         return make_response(jsonify({"message": "You Currently do not have up to the amount",
-                                                      "amount": amount}), 301)
+                                                      "amount": amount}), 406)
         except AttributeError:
-            return make_response(jsonify({"message": "No user with this Account"}), 301)
+            return make_response(jsonify({"message": "No user with this Account"}), 406)
 
-    return make_response(jsonify({"message": "Service Not Avaliable"}), 301)
+    return make_response(jsonify({"message": "Can not process this request"}), 406)
