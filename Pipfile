@@ -14,6 +14,7 @@ pyjwt = "*"
 logger = "*"
 flask-cors = "*"
 flask-expects-json = "*"
+gunicorn = "*"
 
 [dev-packages]
 flake8 = "*"
