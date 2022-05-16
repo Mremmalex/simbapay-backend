@@ -15,6 +15,7 @@ logger = "*"
 flask-cors = "*"
 flask-expects-json = "*"
 gunicorn = "*"
+flask-heroku = "*"
 
 [dev-packages]
 flake8 = "*"

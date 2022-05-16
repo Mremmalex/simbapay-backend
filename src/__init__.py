@@ -17,8 +17,7 @@ database_user = os.environ["DATABASE_USER"]
 database_password = os.environ["DATABASE_PASSWORD"]
 
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ[
-    'DATABASE_URL'] or f"postgresql://{database_user}:{database_password}:@localhost/{database_name}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{database_user}:{database_password}:@localhost/{database_name}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['CORS_HEADERS'] = "Content-Type"
 
