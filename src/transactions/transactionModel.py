@@ -16,4 +16,4 @@ class Transaction(db.Model):
     currency_type = db.Column(db.String)
     transaction_type = db.Column(db.String)
     created_at = db.Column(db.String, default=datetime.utcnow())
-    updateed_at = db.Column(db.String)
+    updated_at = db.Column(db.String, default=datetime.utcnow())

@@ -36,7 +36,7 @@ def upgrade():
                               autoincrement=False, nullable=True),
                     sa.Column('created_at', sa.VARCHAR(),
                               autoincrement=False, nullable=True),
-                    sa.Column('updateed_at', sa.VARCHAR(),
+                    sa.Column('updated_at', sa.VARCHAR(),
                               autoincrement=False, nullable=True),
                     sa.PrimaryKeyConstraint('id', name='transactions_pkey'),
                     sa.UniqueConstraint(
@@ -62,7 +62,7 @@ def downgrade():
                               autoincrement=False, nullable=True),
                     sa.Column('created_at', sa.VARCHAR(),
                               autoincrement=False, nullable=True),
-                    sa.Column('updateed_at', sa.VARCHAR(),
+                    sa.Column('updated_at', sa.VARCHAR(),
                               autoincrement=False, nullable=True),
                     sa.PrimaryKeyConstraint('id', name='transactions_pkey'),
                     sa.UniqueConstraint(

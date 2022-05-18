@@ -17,21 +17,25 @@ def handle_user_accounts():
     userData = decode_jwt(json_token)
 
     user_id = userData['payload'].get("user_id")
-    eur = getEurAccount(user_id)
-    usd = getUsdAccount(user_id)
-    ngn = getNgnAccount(user_id)
-    payload = {
-        "eur": {
-            "account_num": eur.account_num,
-            "balance": eur.balance
-        },
-        "usd": {
-            "account_num": usd.account_num,
-            "balance": usd.balance
-        },
-        "ngn": {
-            "account_num": ngn.account_num,
-            "balance": ngn.balance
+    try:
+        eur = getEurAccount(user_id)
+        usd = getUsdAccount(user_id)
+        ngn = getNgnAccount(user_id)
+        payload = {
+            "eur": {
+                "account_num": eur.account_num,
+                "balance": eur.balance
+            },
+            "usd": {
+                "account_num": usd.account_num,
+                "balance": usd.balance
+            },
+            "ngn": {
+                "account_num": ngn.account_num,
+                "balance": ngn.balance
+            }
         }
-    }
-    return make_response(jsonify({"data": payload})), 200
+        return make_response(jsonify({"data": payload})), 200
+    except AttributeError:
+
+        return make_response(jsonify({"message": "account could not be retrieved"}))
