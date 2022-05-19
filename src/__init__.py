@@ -17,7 +17,7 @@ database_user = os.environ["DATABASE_USER"]
 database_password = os.environ["DATABASE_PASSWORD"]
 
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://ppbldgirhzauzh:5f5656ded49f700840fbc85b20dc13a507920dd57c2cd4f16994037855d3b440@ec2-34-201-95-176.compute-1.amazonaws.com:5432/db77ud0gl6cdp9"
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{database_user}:{database_password}:@localhost/{database_name}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['CORS_HEADERS'] = "Content-Type"

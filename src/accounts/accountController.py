@@ -11,9 +11,11 @@ route = Blueprint("accounts", "accounts")
 @route.get("/api/auth/accounts")
 @required_user()
 def handle_user_accounts():
+
+    # jwt tokon decoding and verification
+
     json_token = request.headers.get(
         "Authorization") or request.cookies.get("accessToken")
-
     userData = decode_jwt(json_token)
 
     user_id = userData['payload'].get("user_id")
@@ -37,5 +39,4 @@ def handle_user_accounts():
         }
         return make_response(jsonify({"data": payload})), 200
     except AttributeError:
-
         return make_response(jsonify({"message": "account could not be retrieved"}))

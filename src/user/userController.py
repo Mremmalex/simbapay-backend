@@ -94,7 +94,7 @@ def handle_login_user():
     user = getUserByUsername(username)
     if not user:
         return make_response(jsonify({"message":
-                                     "user does not exit please create account"}))
+                                     "user does not exit please create account"}), 406)
 
     if check_password_hash(user.password, password):
         payload = {
@@ -115,7 +115,7 @@ def handle_login_user():
         return resp
 
     else:
-        return make_response(jsonify({"message": "password does not match"}))
+        return make_response(jsonify({"message": "password does not match"}), 406)
 
 
 login_schema = {
